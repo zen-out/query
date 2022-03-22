@@ -1,6 +1,6 @@
 const query = require("./index.js")
 
-const filename = "./dist/db.json"
+const filename = "./db.json"
 
 async function test() {
 
