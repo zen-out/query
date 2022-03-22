@@ -2,7 +2,7 @@ const _ = require("lodash")
 const axios = require("axios")
 const fs = require("fs-extra")
 const make_legit = require("make_legit")
-const { userType, hourglassType, problemType, taskType, tag_snippetType, cheatsheetType, followType, deviceType, paymentType } = require("./data.js")
+const { userMerge, hourglassMerge, problemMerge, taskMerge, tag_snippetMerge, cheatsheetMerge, followMerge, deviceMerge, paymentMerge, userType, hourglassType, problemType, taskType, tag_snippetType, cheatsheetType, followType, deviceType, paymentType } = require("./data.js")
 const { inputs } = require("./inputs.js")
 const FILEPATH = "./db.json"
 const arrz = require("array_helperz")
@@ -45,7 +45,42 @@ function formatToType(table, object) {
     see.should("format object to appropriate types")
     see.is(formatted)
     return formatted;
+}
 
+function mergeWith(table, object) {
+    let formatted;
+    if (table === "problem") {
+        formatted = _.extend(problemMerge, object)
+    } else if (table === "user") {
+        formatted = _.extend(userMerge, object)
+        console.log("🚀 ~ file: query.js ~ line 18 ~ formatToMerge ~ formatted", formatted)
+    } else if (table === "hourglass") {
+
+        formatted = _.extend(hourglassMerge, object)
+    } else if (table === "task") {
+
+        formatted = _.extend(taskMerge, object)
+    } else if (table === "tag_snippet") {
+
+        formatted = _.extend(tag_snippetMerge, object)
+    } else if (table === "cheatsheet") {
+
+        formatted = _.extend(cheatsheetMerge, object)
+    } else if (table === "follow") {
+
+        formatted = _.extend(followMerge, object)
+    } else if (table === "device") {
+
+        formatted = _.extend(deviceMerge, object)
+    } else if (table === "payment") {
+
+        formatted = _.extend(paymentMerge, object)
+    } else {
+        return upset("not actual object", "formatToMerge", "should be actual object or table")
+    }
+    see.should("format object to appropriate Merges")
+    see.is(formatted)
+    return formatted;
 }
 async function post(table, object) {
     let readFromFile = fs.readJsonSync(FILEPATH)
@@ -78,41 +113,47 @@ async function testPost() {
 }
 // testPost()
 
-function replaceOrAdd(array, id, updatedObject) {
+function replace(array, id, updatedObject) {
     for (let i = 0; i < array.length; i++) {
         if (array[i]["id"] === id) {
             array[i] = updatedObject;
-        } else {
-            array.push(updatedObject)
         }
     }
     return array;
 }
-async function update(table, id, object) {
+
+function update(table, id, object) {
     let readFromFile = fs.readJsonSync(FILEPATH)
-    let getKey = readFromFile[table]
-    let original = _.filter(getKey, { id: id })
+        // returns array 
+    let get_array = readFromFile[table]
+    let original = _.filter(get_array, { id: id })
     let original_obj = make_legit.getObject(original)
     let getFormatted = formatToType(table, object)
-    let extended = _.extend(original_obj, getFormatted)
+    let update_with_keys = mergeWith(table, getFormatted)
+    let extended = _.extend(update_with_keys, original_obj)
     extended["id"] = id;
-    getKey = replaceOrAdd(getKey, id, extended)
-    console.log("🚀 ~ file: query.js ~ line 102 ~ update ~ getKey", getKey)
-    readFromFile[table] = getKey
+    get_array = replace(get_array, id, extended)
+    readFromFile[table] = get_array
     fs.outputJsonSync(FILEPATH, readFromFile)
-    see.should("appended the update object to the document - we need to replace it ")
-    return make_legit.getObject(extended);
+    let final_object = make_legit.getObject(extended);
+    let cleaned = make_legit.format(final_object, "object")
+    return cleaned;
 }
-async function updateTable(table, id, object) {
-    let updateTable = await update(table, id, object)
+
+function updateTable(table, id, object) {
+    let updateTable = update(table, id, object)
     console.log(updateTable)
-    let updateHourglass = await update("hourglass", updateTable["hourglass_id"], object)
+
+    let hourglass_id = updateTable["hourglass_id"]
+    console.log("🚀 ~ file: query.js ~ line 112 ~ updateTable ~ hourglass_id", hourglass_id)
+    let updateHourglass = update("hourglass", hourglass_id, object)
     delete updateHourglass["id"]
     let merged = _.extend(updateTable, updateHourglass)
     return merged;
 }
 async function testUpdate() {
-    let problem = updateTable("problem", 1, { difficulty: 3, plan: "give less shits about boys" })
+    let problem = updateTable("problem", 1, { difficulty: 2, usefulness: 2, plan: "asdf less shits about boys" })
+    console.log("🚀 ~ file: query.js ~ line 157 ~ testUpdate ~ problem", problem)
 
     // let hourglass = updateTable("hourglass", 1, inputs["hourglass"])
 
