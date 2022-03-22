@@ -21,6 +21,10 @@ const inputs = {
 
     },
     problem: {
+        seconds: 3,
+        start: new Date(),
+        edit: new Date(),
+        end: "2022-12-12",
         problem: "the problem is that it's really hard to keep track of the different pages and modules that we create",
         whatshouldbe: "it should be easier to keep track of them and to only write things once",
         whatactuallyis: "it's actually quite difficult to keep track and visualize our progress",
@@ -38,11 +42,20 @@ const inputs = {
         key_info: "just do it",
         description: "be more like water",
         structure: "think less",
+        start: new Date(),
+        edit: new Date(),
+        end: "2022-12-12"
     },
     task: {
         name: "highlight utils in orange, classes in soft pink, function in bright pink",
+        start: new Date(),
+        edit: new Date(),
+        end: "2022-12-12",
     },
     tag_snippet: {
+        start: new Date(),
+        edit: new Date(),
+        end: "2022-12-12",
         tag: "confidence",
         snippet: "be more comfortable in your own skin, don't be afraid. accept your vulnerability, and be strong about it.",
     },
