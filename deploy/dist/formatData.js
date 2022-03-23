@@ -9,9 +9,7 @@ const { upset } = require("whats_wrong")
  * // ensures that the problem object matches 
  * @author zen-out
  * @date 2022-03-22
- * @param {any} table
- * @param {any}  object
- * @returns {any}
+ * @returns {object}
  */
 function formatToType(table, object) {
     let formatted;
@@ -54,9 +52,7 @@ function formatToType(table, object) {
  * // returns with undefined
  * @author zen-out
  * @date 2022-03-22
- * @param {any} table
- * @param {any}  object
- * @returns {any}
+ * @returns {object}
  */
 function mergeWith(table, object) {
     let formatted;

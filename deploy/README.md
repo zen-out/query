@@ -10,30 +10,36 @@ npm install json_basic_query
 const json_basic_query =  require('json_basic_query')
 ```
 
+## If utilizing in html...: 
+```html
+<script src="./node_modules/json_basic_query/index.js"></script>
+<script> 
+$(()=> { 
+     const output =  json_basic_query.method(parameter)
+ })
+</script>
+```
 ```js
-
-const filename = "./dist/db.json"
-
-async function test() {
-
-    let getAll = await query.getAll(filename, "hourglass")
-    let getCount = await query.getObjectCount(filename, "hourglass", { difficulty: 2 })
-    let getById = await query.getOneById(filename, "hourglass", 2)
-    let getByObj = await query.getByObject(filename, "hourglass", { difficulty: 2 })
-    let post = await query.post(filename, "problem", { problem: "Wahtsup", difficulty: 2 })
-    console.log("🚀 ~ file: playground.js ~ line 18 ~ post", post)
-    let update = await query.update(filename, "problem", 1, { whatshouldbe: "okay" })
-    let updateOne = await query.updateOne(filename, "problem", 1, "whatactuallyis", "fuck")
-}
-test()
+await delById(filename, table, id) // returns true
+await delByKeyValue(filename, table, key, value) // returns true 
+await getByObject(filename, table, object) // returns array 
+await getAll(filename, table)
+await getObjectCount(filename, table,object)
+await tableColValCount(filename, table, key, value)
+await getOneById(filename, table, id)
+await getByObject(filename, table, object)
+await directPost(filename, table, object) // incremenets id
+await post(filename, table, object)  // returns object;  - if problem, tagsnippet, device, cheatsheet or task, will also add to hourglass. 
+await update(filename, table, id, object) // checks for cheatsheet, tag_snippet, problem, tag_snippet, appends [edit] 
+await directUpdate(filename, table, id, object)
 ```
 
 ## Functions
 
 <dl>
-<dt><a href="#formatToType">formatToType(table, object)</a> ⇒ <code>any</code></dt>
+<dt><a href="#formatToType">formatToType()</a> ⇒ <code>object</code></dt>
 <dd></dd>
-<dt><a href="#mergeWith">mergeWith(table, object)</a> ⇒ <code>any</code></dt>
+<dt><a href="#mergeWith">mergeWith()</a> ⇒ <code>object</code></dt>
 <dd></dd>
 <dt><a href="#getAll">getAll(table)</a> ⇒ <code>any</code></dt>
 <dd></dd>
@@ -42,29 +48,26 @@ test()
 <dt><a href="#tableColValCount">tableColValCount(table, key, value)</a> ⇒ <code>any</code></dt>
 <dd></dd>
 <dt><a href="#getOneById">getOneById(table, id)</a> ⇒ <code>any</code></dt>
-<dd><p>描述</p>
-</dd>
-<dt><a href="#getByObject">getByObject(table, object)</a> ⇒ <code>any</code></dt>
+<dd></dd>
+<dt><a href="#getByObject">getByObject()</a> ⇒ <code>array</code></dt>
 <dd><p>getByObject(filename, hourglass, )</p>
 </dd>
 <dt><a href="#directPost">directPost(filename, table, object)</a> ⇒ <code>any</code></dt>
 <dd></dd>
 <dt><a href="#post">post(filename, table, object)</a> ⇒ <code>any</code></dt>
 <dd></dd>
+<dt><a href="#directUpdate">directUpdate()</a></dt>
+<dd></dd>
+<dt><a href="#update">update()</a></dt>
+<dd></dd>
 </dl>
 
 <a name="formatToType"></a>
 
-## formatToType(table, object) ⇒ <code>any</code>
+## formatToType() ⇒ <code>object</code>
 **Kind**: global function  
 **Date**: 2022-03-22  
 **Author**: zen-out  
-
-| Param  | Type             |
-|--------|------------------|
-| table  | <code>any</code> |
-| object | <code>any</code> |
-
 **Example**  
 ```js
 let object = formatToType("problem", object)
@@ -72,16 +75,10 @@ let object = formatToType("problem", object)
 ```
 <a name="mergeWith"></a>
 
-## mergeWith(table, object) ⇒ <code>any</code>
+## mergeWith() ⇒ <code>object</code>
 **Kind**: global function  
 **Date**: 2022-03-22  
 **Author**: zen-out  
-
-| Param  | Type             |
-|--------|------------------|
-| table  | <code>any</code> |
-| object | <code>any</code> |
-
 **Example**  
 ```js
 mergeWith("problem", object)
@@ -138,8 +135,6 @@ tableCoLValCount(filename, table, key, value)
 <a name="getOneById"></a>
 
 ## getOneById(table, id) ⇒ <code>any</code>
-描述
-
 **Kind**: global function  
 **Date**: 2022-03-22  
 **Author**: zen-out  
@@ -151,18 +146,12 @@ tableCoLValCount(filename, table, key, value)
 
 <a name="getByObject"></a>
 
-## getByObject(table, object) ⇒ <code>any</code>
+## getByObject() ⇒ <code>array</code>
 getByObject(filename, hourglass, )
 
 **Kind**: global function  
 **Date**: 2022-03-22  
 **Author**: zen-out  
-
-| Param  | Type             |
-|--------|------------------|
-| table  | <code>any</code> |
-| object | <code>any</code> |
-
 <a name="directPost"></a>
 
 ## directPost(filename, table, object) ⇒ <code>any</code>
@@ -196,4 +185,22 @@ let post_user = directPost(filename, "user", object)
 **Example**  
 ```js
 let post_task = post("./db.json", "task", inputs["task"])
+```
+<a name="directUpdate"></a>
+
+## directUpdate()
+**Kind**: global function  
+**Author**: github.com/zen-out  
+**Example**  
+```js
+directUpdate(filename, table, id, object) // does not add edit to the object - clean update. 
+```
+<a name="update"></a>
+
+## update()
+**Kind**: global function  
+**Author**: github.com/zen-out  
+**Example**  
+```js
+await update(filename, table, id, object)
 ```

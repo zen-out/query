@@ -53,22 +53,16 @@ async function directPost(filename, table, object) {
  */
 async function post(filename, table, object) {
 
-    if (table === "user") {
-        let post_user = await directPost(filename, "user", object)
-        return post_user
-    } else if (table === "hourglass") {
-        let post_user = await directPost(filename, "hourglass", object)
-        return post_user
-    } else if (table === "device") {
-        let post_user = await directPost(filename, "device", object)
-        return post_user
-    } else {
+    if (table === "problem" || table === "tag_snippet" || table === "device" || table === "cheatsheet" || table === "task") {
         let post_hourglass_first = await directPost(filename, "hourglass", object)
         let hourglass_id = post_hourglass_first["id"]
         object["hourglass_id"] = hourglass_id
         let second_post = await directPost(filename, table, object)
         let merged = _.merge(post_hourglass_first, second_post)
         return merged;
+    } else {
+        let post_user = await directPost(filename, table, object)
+        return post_user
     }
 }
 

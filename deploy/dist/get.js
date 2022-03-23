@@ -51,7 +51,6 @@ async function tableColValCount(filename, table, key, value) {
     return counts.length;
 }
 /**
- * 描述
  * @author zen-out
  * @date 2022-03-22
  * @param {any} table
@@ -70,9 +69,7 @@ async function getOneById(filename, table, id) {
  * getByObject(filename, hourglass, )
  * @author zen-out
  * @date 2022-03-22
- * @param {any} table
- * @param {any}  object
- * @returns {any}
+ * @returns {array}
  */
 async function getByObject(filename, table, object) {
     let data = await getAll(filename, table)

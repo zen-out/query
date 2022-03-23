@@ -1,6 +1,6 @@
 const query = require("./index.js")
-
-const filename = "./db.json"
+query.list()
+const filename = "./dist/db.json"
 
 async function test() {
 
@@ -13,4 +13,4 @@ async function test() {
     let update = await query.update(filename, "problem", 1, { whatshouldbe: "okay" })
     let updateOne = await query.updateOne(filename, "problem", 1, "whatactuallyis", "fuck")
 }
-test()
+// test()

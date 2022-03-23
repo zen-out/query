@@ -8,10 +8,11 @@ const fs = require("fs-extra")
      * ccc.writeJSON('./db.json', object)
      * @author zen-out
      * @date 2022-03-04
-     * @param {any} filePath
-     * @param {any} object
+     * @param {string} filePath
+     * @param {object} object
      */
 function writeJSON(filePath, object) {
+
     fs.outputJsonSync(filePath, object)
 }
 
@@ -20,7 +21,7 @@ function writeJSON(filePath, object) {
  * let getJSON = ccc.readJSON("./db.json")
  * @author zen-out
  * @date 2022-03-04
- * @param {any} filePath
+ * @param {string} filePath
  * @returns {object}
  */
 function readJSON(filePath) {
@@ -39,7 +40,9 @@ function readJSON(filePath) {
  * 4. It will create an array and it will push the object into the array 
  * @author zen-out
  * @date 2022-03-04
- * @param {any} "1:30PM"
+ * @param {string} filePath
+ * @param {string}
+ * @param {object}
  */
 function appendToJSON(filePath, key, data) {
     if (checkPath(filePath)) {
@@ -79,8 +82,9 @@ function appendToJSON(filePath, key, data) {
 ccc.replaceJSON("./data/appendToMe.json", objectDir, { "sexylink": "link" })
  * @author zen-out
  * @date 2022-03-05
- * @param {any} filePath
- * @param {any} filePath
+ * @param {string} filePath
+ * @param {string} filePath
+ * @param {object} object to replace
  */
 function replaceJSON(filePath, arrDir, objectToReplace) {
 
@@ -113,8 +117,8 @@ function replaceJSON(filePath, arrDir, objectToReplace) {
  * let scripts = ccc.getJSONObject("../package.json", ["scripts"])
  * @author zen-out
  * @date 2022-03-06
- * @param {any} filePath
- * @param {any}  arrDir
+ * @param {string} filePath
+ * @param {array}  arrDir
  * @returns {object} JSON object
  */
 function getJSONObject(filePath, arrDir) {
@@ -138,9 +142,9 @@ function getJSONObject(filePath, arrDir) {
 })
  * @author zen-out
  * @date 2022-03-06
- * @param {any} filePath
- * @param {any}  arrDir
- * @param {any}  updateObj
+ * @param {string} filePath
+ * @param {array}  arrDir
+ * @param {object}  updateObj
  */
 function mergeJSONObject(filePath, arrDir, updateObj) {
 
@@ -160,9 +164,9 @@ function mergeJSONObject(filePath, arrDir, updateObj) {
 })
  * @author zen-out
  * @date 2022-03-06
- * @param {any} filePath
- * @param {any}  arrDir
- * @param {any}  addObj
+ * @param {string} filePath
+ * @param {array}  arrDir
+ * @param {object}  addObj
  */
 function addToNestedJSON(filePath, arrDir, addObj) {
 

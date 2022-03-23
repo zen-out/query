@@ -2,7 +2,6 @@ const _ = require("lodash")
 const ccc = require("clear_concise_creative")
 const make_legit = require("make_legit")
 const { formatToType, mergeWith } = require("./formatData")
-const { see } = require("code_clarity")
 const { getOneById } = require("./get")
 
 function replace(array, id, updatedObject) {
@@ -15,7 +14,11 @@ function replace(array, id, updatedObject) {
 }
 
 
-
+/**
+ * @example
+ * directUpdate(filename, table, id, object) // does not add edit to the object - clean update. 
+ * @author github.com/zen-out
+ */
 async function directUpdate(filename, table, id, object) {
     let readFromFile = await ccc.readJSON(filename)
     let get_array = readFromFile[table]
@@ -33,21 +36,24 @@ async function directUpdate(filename, table, id, object) {
     return final_object;
 }
 
+/**
+ * @example
+ * await update(filename, table, id, object)
+ * @author github.com/zen-out
+ */
 async function update(filename, table, id, object) {
     object["edit"] = new Date()
     let updateTable = await directUpdate(filename, table, id, object)
     let getObject = await getOneById(filename, table, id)
-    if (table === "user") {
-        return getObject
-    } else if (table === "device") {
-        return getObject;
-    } else {
+    if (table === "problem" || table === "tag_snippet" || table === "device" || table === "cheatsheet" || table === "task") {
         let hourglass_id = getObject["hourglass_id"]
         let updateHourglass = await directUpdate(filename, "hourglass", hourglass_id, object)
         let getHourglass = await getOneById(filename, "hourglass", hourglass_id)
         let merged = _.merge(getHourglass, getObject)
         merged = make_legit.getObject(merged)
         return merged
+    } else {
+        return getObject;
     }
 }
 // testUpdate()
@@ -60,8 +66,8 @@ async function updateOne(filename, table, id, key, value) {
 }
 
 function testUpdate() {
-    let problem = updateOne("./db.json", "hourglass", 2, "difficulty", 2)
+    let problem = updateOne("./db.json", "problem", 1, "difficulty", 5)
 }
-
+// testUpdate()
 
 module.exports = { replace, directUpdate, update, updateOne, testUpdate };
